@@ -1,47 +1,55 @@
 ![CF](https://camo.githubusercontent.com/70edab54bba80edb7493cad3135e9606781cbb6b/687474703a2f2f692e696d6775722e636f6d2f377635415363382e706e67) 16: Basic Auth
 ===
 
-## Submission Instructions
-  * Follow the instructions in the "Lab Instructions" documentation in the reference folder of the class repository
+## Overview
+This application stores information about user accounts. It takes in a passwordHash, an email, a tokenSeed, and date stamp for when the account is created. PasswordHash, email, and tokenSeed are required fields, with the email and tokenSeed being unique. When a user creates a new account, the new account takes in a username, email, passwordHash, and tokenSeed.
 
-## Learning Objectives  
-* students will be able to create basic authorization middleware
-* students will be able to test basic authorization for signup/signin routes
+## Getting Started
+As a user, you will need to have MongoDB installed on your computer. 
 
-## Requirements
+You will need to include the following scripts in your package.json in order to run the tests and mongod:
 
-## Feature Tasks
-* create an HTTP server using `express`
-* using `mongoose`, create a **User** model with the following properties and options:
-  * `username` - *required and unique*
-  * `email` - *required and unique*
-  * `password` - *required - this must be hashed and can not stored as plain text*
-  * `findHash` - *unique*
-* use the **npm** `debug` module to log function calls that are used within your application
-* use the **express** `Router` to create a custom router for allowing users to **sign up** and **sign in**
-* use the **npm** `dotenv` module to house the following environment variables:
-  * `PORT`
-  * `MONGODB_URI`
-  * `APP_SECRET` *(used for signing and verify tokens)*
+"scripts": {
+    "db": "mongod --dbpath=/Users/john/codefellows/tmp/db",
+    "start": "node index.js",
+    "watch": "nodemon index.js",
+    "test-watch": "jest --watchAll",
+    "test": "jest",
+    "lint": "eslint **/*.js"
+  }
 
-## Server Endpoints
-### `/api/signup`
-* `POST` request
-* the client should pass the username and password in the body of the request
-* the server should respond with a token (generated using `jwt`)
-* the server should respond with **400 Bad Request** to a failed request
 
-### `/api/signin`
-* `GET` request
-* the client should pass the username and password to the server using a `Basic:` authorization header
-* the server should respond with a token for authenticated users
-* the server should respond with **401 Unauthorized** for non-authenticated users
+You will need to init the following dependencies before utilizing this application:
 
-## Tests
-* create a test that will ensure that your API returns a status code of **404** for any routes that have not been registered
-* `/api/signup`
-* `POST` - test **400**, if no request body has been provided or the body is invalid
-* `POST` - test **200**, if the request body has been provided and is valid
-* `/api/signin`
-* `GET` - test **401**, if the user could not be authenticated
-* `GET` - test **200**, responds with token for a request with a valid basic authorization header
+  "dependencies": {
+    "babel-env": "^2.4.1",
+    "babel-eslint": "^8.2.3",
+    "babel-register": "^6.26.0",
+    "bcrypt": "^2.0.1",
+    "cors": "^2.8.4",
+    "dotenv": "^5.0.1",
+    "eslint": "^4.19.1",
+    "express": "^4.16.3",
+    "jest": "^22.4.4",
+    "jsonwebtoken": "^8.2.2",
+    "mongoose": "^5.1.4",
+    "morgan": "^1.9.0",
+    "require-dir": "^1.0.0",
+    "superagent": "^3.8.3"
+  }
+
+## Architecture
+This application is written in JavaScript and Node.js. You will need MongoDB installed and, express, and mongoose middleware. 
+
+In order to run tests, run the command: npm run test.
+
+In order to test as CLI. You will need to ensure that you have nodemon and httpie installed on your computer. Then, in one terminal, run the command: nodemon index.js. Then, in a separate terminal, run the commands:
+
+To POST/CREATE - http POST :3000/user species=[name of species] firstName=[name] description=[""] gender=[male or female]
+
+- If successful, will respond with a 200 status. If an invalid post is made, will respond with a 400 status
+
+To GET/READ - http :3000/user id==[insert existing id]
+
+- If successful, will respond with a 200 status. If an invalid get is made, will respond with a 404 status
+
